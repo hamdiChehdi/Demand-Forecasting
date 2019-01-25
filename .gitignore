@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/WpfExceel/obj/Debug
+/.vs/WpfExceel/v15/Server/sqlite3
+/.vs/WpfExceel/v15/.suo
+/packages/System.ComponentModel.Annotations.4.5.0
