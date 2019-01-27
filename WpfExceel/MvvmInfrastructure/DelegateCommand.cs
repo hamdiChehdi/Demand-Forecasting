@@ -6,15 +6,15 @@
     {
         Action<object> execute;
         Func<object, bool> canExecute;
-        // Event required by ICommand
+      
         public event EventHandler CanExecuteChanged;
 
-        // Two constructors
         public DelegateCommand(Action<object> execute, Func<object, bool> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
         public DelegateCommand(Action<object> execute)
         {
             this.execute = execute;
@@ -36,8 +36,11 @@
         public void RaiseCanExecuteChanged()
         {
             if (CanExecuteChanged != null)
+            {
                 CanExecuteChanged(this, EventArgs.Empty);
+            }
         }
+
         // Default CanExecute method
         bool AlwaysCanExecute(object param)
         {

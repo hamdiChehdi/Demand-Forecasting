@@ -2,63 +2,97 @@
 {
     
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.InteropServices;
     using Excel = Microsoft.Office.Interop.Excel;
+    using WpfExceel.Model;
 
     public static class ExcelReader
     {
-        public static void ReadExcel()
+        public static OperationResult LoadExcel(string filePath, List<Demand> demands)
         {
             //Create COM Objects. Create a COM object for everything that is referenced
-            string strPath = Path.GetFullPath(Directory.GetCurrentDirectory());
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(strPath + "\\" + "TestWorkGroup.xlsx");
-            Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-            Excel.Range xlRange = xlWorksheet.UsedRange;
-            
+            Excel.Workbook xlWorkbook = null;
+            Excel._Worksheet xlWorksheet = null;
+            Excel.Range xlRange = null;
 
-            Object[,] sheetValues = (Object[,])xlRange.Value;
-            int rowCount = sheetValues.GetLength(0);
-            int colCount = sheetValues.GetLength(1);
-
-            //iterate over the rows and columns and print to the console as it appears in the file
-            //excel is not zero based!!
-            for (int i = 1; i <= rowCount; i++)
+            try
             {
-                for (int j = 1; j <= colCount; j++)
-                {
-                    //new line
-                    if (j == 1)
-                        Console.Write("\r\n");
-
-                    //write the value to the console
-                    if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
-                        Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
-
-                    //add useful things here!   
-                }
+               xlWorkbook = xlApp.Workbooks.Open(filePath);
+            }
+            catch (Exception ex)
+            {
+                xlApp.Quit();
+                Marshal.ReleaseComObject(xlApp);
+                Console.WriteLine("Unable to open the excel file, Log Exception : " + ex.InnerException);
+                return OperationResult.ExceptionResult(ex);
             }
 
-            //cleanup
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            try
+            {
+                xlWorksheet = xlWorkbook.Sheets[1];
+                xlRange = xlWorksheet.UsedRange;
 
-            //rule of thumb for releasing com objects:
-            //  never use two dots, all COM objects must be referenced and released individually
-            //  ex: [somthing].[something].[something] is bad
+                Object[,] sheetValues = (Object[,])xlRange.Value;
+                int rowCount = sheetValues.GetLength(0);
+                int colCount = sheetValues.GetLength(1);
 
-            //release com objects to fully kill excel process from running in the background
-            Marshal.ReleaseComObject(xlRange);
-            Marshal.ReleaseComObject(xlWorksheet);
+                if (colCount < 2)
+                {
+                    return OperationResult.FailureResult("The excel sheet should have two numeric columns [Period, Demand]");
+                }
 
-            //close and release
-            xlWorkbook.Close();
-            Marshal.ReleaseComObject(xlWorkbook);
+                if (rowCount < 2)
+                {
+                    return OperationResult.FailureResult("The excel sheet should have at least two rows");
+                }
 
-            //quit and release
-            xlApp.Quit();
-            Marshal.ReleaseComObject(xlApp);
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    Demand demand = new Demand();
+
+                    if (xlRange.Cells[i, 1] == null || xlRange.Cells[i, 1].Value2 == null)
+                    {
+                        return OperationResult.FailureResult("The cell [" + i + ", " + 1 + "] is empty");
+                    }
+
+                    if (xlRange.Cells[i, 2] == null || xlRange.Cells[i, 2].Value2 == null)
+                    {
+                        return OperationResult.FailureResult("The cell [" + i + ", " + 2 + "] is empty");
+                    }
+
+                    demand.period = (int)xlRange.Cells[i, 1].Value2;
+                    demand.quantity = xlRange.Cells[i, 2].Value2;
+                    demands.Add(demand);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return OperationResult.ExceptionResult(ex);
+            }
+            finally
+            {
+                //cleanup
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                //release com objects to fully kill excel process from running in the background
+                Marshal.ReleaseComObject(xlRange);
+                Marshal.ReleaseComObject(xlWorksheet);
+
+                //close and release
+                xlWorkbook.Close();
+                Marshal.ReleaseComObject(xlWorkbook);
+
+                //quit and release
+                xlApp.Quit();
+                Marshal.ReleaseComObject(xlApp);
+            }
+
+            return OperationResult.SuccessResult();
         }
     }
 }

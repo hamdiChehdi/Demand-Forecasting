@@ -67,11 +67,11 @@
                      Text="{Binding FilePath}"
                      Width="250"/>
             
-            <Button Content="Next" 
+            <Button Content="Start" 
                     Margin="2"
                     Foreground="White"
                     Background="#06B5F8"
-                    Command="{Binding ImportExcelCmd}"
+                    Command="{Binding StartCmd}"
                     Height="35"
                     Width="50"/>
         </StackPanel>
