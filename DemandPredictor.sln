@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfExceel", "WpfExceel\WpfExceel.csproj", "{1D1F5BF0-D207-422D-BDCC-D631AA695A59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemandPredictor", "WpfExceel\DemandPredictor.csproj", "{1D1F5BF0-D207-422D-BDCC-D631AA695A59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
