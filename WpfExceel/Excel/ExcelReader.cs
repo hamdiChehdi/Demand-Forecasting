@@ -1,4 +1,4 @@
-﻿namespace WpfExceel.Excel
+﻿namespace ForecastingDemand.Excel
 {
     
     using System;
@@ -6,7 +6,7 @@
     using System.IO;
     using System.Runtime.InteropServices;
     using Excel = Microsoft.Office.Interop.Excel;
-    using WpfExceel.Model;
+    using ForecastingDemand.Model;
 
     public static class ExcelReader
     {

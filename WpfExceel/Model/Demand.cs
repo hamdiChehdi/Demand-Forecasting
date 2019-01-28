@@ -1,4 +1,4 @@
-﻿namespace WpfExceel.Model
+﻿namespace ForecastingDemand.Model
 {
     public struct Demand
     {

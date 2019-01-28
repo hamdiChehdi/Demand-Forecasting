@@ -1,4 +1,4 @@
-﻿namespace WpfExceel.MvvmInfrastructure
+﻿namespace ForecastingDemand.MvvmInfrastructure
 {
     using System.ComponentModel;
 

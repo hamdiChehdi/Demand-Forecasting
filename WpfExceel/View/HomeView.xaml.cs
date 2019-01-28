@@ -1,7 +1,7 @@
-﻿namespace WpfExceel.View
+﻿namespace ForecastingDemand.View
 {
     using System.Windows;
-    using WpfExceel.ViewModel;
+    using ForecastingDemand.ViewModel;
 
     public partial class HomeView : Window
     {
