@@ -1,0 +1,79 @@
+﻿<Window x:Class="WpfExceel.View.HomeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfExceel.View"
+        mc:Ignorable="d"
+        Title="HomeView" 
+        Icon="\Images\robot_icon.ico"
+        Height="300" 
+        ResizeMode="CanMinimize"
+        Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".7*" />
+            <RowDefinition Height=".3*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Image Source="\Images\robot_icon.jpg"
+               Grid.ColumnSpan="2"/>
+
+        <Border 
+            Grid.Column="2"
+            Grid.ColumnSpan="3" 
+            Margin="20"
+            BorderBrush="DarkGreen"
+            BorderThickness="5"
+            Background="GreenYellow"
+            Padding="5"
+            CornerRadius="10 30 0 30">
+            <Label 
+               FontSize="26"
+               Margin="2"   
+               VerticalAlignment="Center"
+               >
+                <TextBlock TextWrapping="WrapWithOverflow">
+                in order to use this application you need to import the excel file
+                </TextBlock>
+            </Label>
+        </Border>
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="2"
+                    Orientation="Horizontal">
+            <Button  
+                Width="35"
+                Height="35"
+                Command="{Binding ImportExcelCmd}"
+                Margin="2">
+                <Image Source="\Images\Excel.jpg"  />
+            </Button>
+
+            <TextBox Height="35" 
+                     TextAlignment="Left"
+                     VerticalContentAlignment="Center"
+                     ToolTip="{Binding FilePath}"
+                     Text="{Binding FilePath}"
+                     Width="250"/>
+            
+            <Button Content="Start" 
+                    Margin="2"
+                    Foreground="White"
+                    Background="#06B5F8"
+                    Command="{Binding StartCmd}"
+                    Height="35"
+                    Width="50"/>
+        </StackPanel>
+    </Grid>
+</Window>
