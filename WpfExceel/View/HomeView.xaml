@@ -5,15 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:ForecastingDemand.View"
+        xmlns:validation="clr-namespace:ForecastingDemand.Validation"
         mc:Ignorable="d"
         Title="HomeView" 
         Icon="\Images\robot_icon.ico"
         Height="300" 
         Width="600">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=".5*"
-                           MaxHeight="250"/>
+                           MaxHeight="200"/>
             <RowDefinition Height=".3*" />
             <RowDefinition Height=".3*" />
         </Grid.RowDefinitions>
@@ -66,10 +68,18 @@
                      TextAlignment="Left"
                      VerticalContentAlignment="Center"
                      ToolTip="{Binding FilePath}"
-                     Text="{Binding FilePath}"
-                     Width="250"/>
+                     Margin="2,2,20,2"
+                     Width="250">
+                <TextBox.Text>
+                    <Binding Path="FilePath" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <validation:ExcelFileNameValidationRule ></validation:ExcelFileNameValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             
-            <Button Content="Start" 
+            <Button Content="Load" 
                     Margin="2"
                     Foreground="White"
                     Background="#06B5F8"

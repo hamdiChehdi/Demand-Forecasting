@@ -86,6 +86,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Demand.cs" />
     <Compile Include="Model\OperationResult.cs" />
+    <Compile Include="Validation\ExcelFileNameValidationRule.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="View\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -183,5 +184,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -40,7 +40,7 @@
             set
             {
                 this.filePath = value;
-                this.NotifyPropertyChanged("FilePath");
+                this.NotifyPropertyChanged(nameof(FilePath));
             }
         }
 
@@ -56,7 +56,7 @@
             set
             {
                 this.labels = value;
-                this.NotifyPropertyChanged("Labels");
+                this.NotifyPropertyChanged(nameof(Labels));
             }
         }
 
