@@ -10,11 +10,14 @@
     using Microsoft.Win32;
     using LiveCharts;
     using LiveCharts.Wpf;
+    using ForecastingDemand.View;
 
     public class HomeViewModel : ViewModelBase
     {
         private string filePath;
         private int[] labels;
+        private ForecastingTechniques selectedTechnique;
+        private List<Demand> demands; 
 
         public HomeViewModel()
         {
@@ -28,6 +31,22 @@
                     PointGeometrySize = 10,
                 }
             };
+
+            this.demands = new List<Demand>();
+        }
+
+        public ForecastingTechniques SelectedTechnique
+        {
+            get
+            {
+                return this.selectedTechnique;
+            }
+
+            set
+            {
+                this.selectedTechnique = value;
+                this.NotifyPropertyChanged(nameof(SelectedTechnique));
+            }
         }
 
         public string FilePath
@@ -68,11 +87,19 @@
             }
         }
 
-        public ICommand StartCmd
+        public ICommand LoadExcelCmd
         {
             get
             {
                 return new DelegateCommand(new Action<object>(this.LoadExcel));
+            }
+        }
+
+        public ICommand StartCmd
+        {
+            get
+            {
+                return new DelegateCommand(new Action<object>(this.Start));
             }
         }
 
@@ -91,9 +118,9 @@
 
         private void LoadExcel(object input)
         {
-            List<Demand> demands = new List<Demand>();
+            this.demands.Clear();
 
-            OperationResult result = ExcelReader.LoadExcel(this.FilePath, demands);
+            OperationResult result = ExcelReader.LoadExcel(this.FilePath, this.demands);
 
             if (result.Success)
             {
@@ -122,6 +149,13 @@
                 this.Labels[idemand] = demands[idemand].period;
                 this.SeriesCollection[0].Values.Add(demands[idemand].quantity);
             }
+        }
+
+        private void Start(object input)
+        {
+            SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands);
+            SimpleMovingAverageView view = new SimpleMovingAverageView(sma);
+            view.ShowDialog();
         }
     }
 }

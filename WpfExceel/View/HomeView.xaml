@@ -6,32 +6,50 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:ForecastingDemand.View"
         xmlns:validation="clr-namespace:ForecastingDemand.Validation"
+        xmlns:Model="clr-namespace:ForecastingDemand.Model"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="HomeView" 
         Icon="\Images\robot_icon.ico"
         Height="300" 
         Width="600">
-    
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                        ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:ForecastingTechniques"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=".5*"
-                           MaxHeight="200"/>
+                           />
             <RowDefinition Height=".3*" />
+            <RowDefinition Height=".2*" />
             <RowDefinition Height=".3*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2.*"/>
+            <ColumnDefinition Width="3.*"/>
+            <ColumnDefinition Width="3.*"/>
+            <ColumnDefinition Width="3.*"/>
         </Grid.ColumnDefinitions>
 
         <Image Source="\Images\robot_icon.jpg"
                Grid.ColumnSpan="2"/>
-
-        <Border 
+        <Grid Grid.Column="2"
+               Grid.ColumnSpan="3" Background="Brown">
+        <Image Source="\Images\DemandForecasting.jpg"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               />
+        </Grid>
+        <!--<Border 
             Grid.Column="2"
             Grid.ColumnSpan="3" 
             Margin="20"
@@ -49,7 +67,7 @@
                     in order to use this application you need to import the excel file
                 </TextBlock>
             </Label>
-        </Border>
+        </Border>-->
 
         <StackPanel Grid.Row="1"
                     Grid.Column="1"
@@ -57,14 +75,15 @@
                     Margin="2"
                     Orientation="Horizontal">
             <Button  
-                Width="35"
-                Height="35"
+                Width="33"
+                Height="33"
+                ToolTip ="in order to use this application you need to import the excel file"
                 Command="{Binding ImportExcelCmd}"
                 Margin="2">
                 <Image Source="\Images\Excel.jpg"  />
             </Button>
 
-            <TextBox Height="35" 
+            <TextBox Height="33" 
                      TextAlignment="Left"
                      VerticalContentAlignment="Center"
                      ToolTip="{Binding FilePath}"
@@ -83,13 +102,13 @@
                     Margin="2"
                     Foreground="White"
                     Background="#06B5F8"
-                    Command="{Binding StartCmd}"
-                    Height="35"
-                    Width="50"/>
+                    Command="{Binding LoadExcelCmd}"
+                    Height="32"
+                    Width="45"/>
         </StackPanel>
 
         <Expander Header="Demand Chart" 
-                  Grid.Row="2"
+                  Grid.Row="3"
                   Grid.ColumnSpan="3">
             <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
                 <lvc:CartesianChart.AxisY>
@@ -100,5 +119,25 @@
                 </lvc:CartesianChart.AxisX>
             </lvc:CartesianChart>
         </Expander>
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="2"
+                    Orientation="Horizontal"
+                    Grid.ColumnSpan="3">
+        <ComboBox HorizontalAlignment="Left" 
+                  Height="23"
+                  MinWidth="150"     
+                  SelectedItem="{Binding SelectedTechnique}"
+                  ItemsSource="{Binding Source={StaticResource dataFromEnum}}"/>
+
+        <Button Content="Start" 
+                Margin="2"
+                Foreground="White"
+                Background="#06B5F8"
+                Command="{Binding StartCmd}"
+                Height="23"
+                Width="46"/>
+        </StackPanel>
     </Grid>
 </Window>

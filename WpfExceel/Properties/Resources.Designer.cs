@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfExceel.Properties
+namespace ForecastingDemand.Properties
 {
 
 
