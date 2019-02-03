@@ -45,7 +45,7 @@
                                     NumberStyles="Integer"  
                                     MinValue="1"
                                     MaxValue="{Binding MaxM}"
-                                    Value="{Binding NumberOfPeriodsValue, ValidatesOnNotifyDataErrors=True}" 
+                                    Value="{Binding NumberOfPeriods, ValidatesOnNotifyDataErrors=True}" 
                                     />
                     
                    

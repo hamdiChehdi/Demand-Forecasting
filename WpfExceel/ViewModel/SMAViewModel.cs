@@ -88,17 +88,17 @@
         {
             double sum = 0;
 
-            for (int i = 0; i < this.numberOfPeriods; i++)
+            for (int i = 0; i < this.NumberOfPeriods; i++)
             {
                 sum += this.Forecasts[i].Quantity;
             }
 
             int size = this.Forecasts.Count;
 
-            for (int i = this.numberOfPeriods; i < size; i++)
+            for (int i = this.NumberOfPeriods; i < size; i++)
             {
-                this.Forecasts[i].Forecasts = Math.Round(sum / this.numberOfPeriods, 3);
-                sum -= this.Forecasts[i - this.numberOfPeriods].Quantity;
+                this.Forecasts[i].Forecasts = Math.Round(sum / this.NumberOfPeriods, 3);
+                sum -= this.Forecasts[i - this.NumberOfPeriods].Quantity;
                 sum += this.Forecasts[i].Quantity;
             }
 
