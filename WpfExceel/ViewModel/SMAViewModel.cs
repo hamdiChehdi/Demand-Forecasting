@@ -12,6 +12,7 @@
     {
         private int numberOfPeriods;
         private ObservableCollection<Forecast> forecasts;
+        private int maxM;
 
         public SMAViewModel(SeriesCollection seriesCollection, List<Demand> demands)
         {
@@ -30,6 +31,20 @@
             {
                 this.numberOfPeriods = value;
                 this.NotifyPropertyChanged(nameof(NumberOfPeriods));
+            }
+        }
+
+        public int MaxM
+        {
+            get
+            {
+                return this.maxM;
+            }
+
+            set
+            {
+                this.maxM = value;
+                this.NotifyPropertyChanged(nameof(MaxM));
             }
         }
 
@@ -65,6 +80,8 @@
             {
                 this.Forecasts.Add(new Forecast(demand));
             }
+
+            this.MaxM = this.Forecasts.Count - 1;
         }
 
         private void Run(object input)
@@ -80,7 +97,7 @@
 
             for (int i = this.numberOfPeriods; i < size; i++)
             {
-                this.Forecasts[i].Forecasts = sum / this.numberOfPeriods;
+                this.Forecasts[i].Forecasts = Math.Round(sum / this.numberOfPeriods, 3);
                 sum -= this.Forecasts[i - this.numberOfPeriods].Quantity;
                 sum += this.Forecasts[i].Quantity;
             }

@@ -11,13 +11,17 @@
     using LiveCharts;
     using LiveCharts.Wpf;
     using ForecastingDemand.View;
+    using ForecastingDemand.Validation;
+    using System.Windows.Controls;
 
     public class HomeViewModel : ViewModelBase
     {
         private string filePath;
         private int[] labels;
         private ForecastingTechniques selectedTechnique;
-        private List<Demand> demands; 
+        private List<Demand> demands;
+        private string statusMsg;
+        private OperationResult lastOperationResult;
 
         public HomeViewModel()
         {
@@ -33,6 +37,7 @@
             };
 
             this.demands = new List<Demand>();
+            this.StatusMsg = "Ready ...";
         }
 
         public ForecastingTechniques SelectedTechnique
@@ -60,6 +65,34 @@
             {
                 this.filePath = value;
                 this.NotifyPropertyChanged(nameof(FilePath));
+            }
+        }
+
+        public string StatusMsg
+        {
+            get
+            {
+                return this.statusMsg;
+            }
+
+            set
+            {
+                this.statusMsg = value;
+                this.NotifyPropertyChanged(nameof(StatusMsg));
+            }
+        }
+
+        public OperationResult LastOperationResult
+        {
+            get
+            {
+                return this.lastOperationResult;
+            }
+
+            set
+            {
+                this.lastOperationResult = value;
+                this.NotifyPropertyChanged(nameof(LastOperationResult));
             }
         }
 
@@ -120,22 +153,32 @@
         {
             this.demands.Clear();
 
-            OperationResult result = ExcelReader.LoadExcel(this.FilePath, this.demands);
+            ExcelFileNameValidationRule excelValidator = new ExcelFileNameValidationRule();
 
-            if (result.Success)
+            ValidationResult result = excelValidator.Validate(this.FilePath, null);
+
+            if (!result.IsValid)
             {
-                MessageBox.Show("WPF App", "Succefully loaded");
+                this.LastOperationResult = OperationResult.FailureResult("Please enter valid excel file");
+                return;
+            }
+
+            this.LastOperationResult = ExcelReader.LoadExcel(this.FilePath, this.demands);
+
+            if (this.LastOperationResult.Success)
+            {
+                // MessageBox.Show("WPF App", "Succefully loaded");
                 this.UpdateChart(demands);
                 return;
             }
 
-            if (!result.IsException())
+            if (!this.LastOperationResult.IsException())
             {
-                MessageBox.Show(result.FailureMessage, "Load excel operation failed ", MessageBoxButton.OK);
+                // MessageBox.Show(this.LastOperationResult.FailureMessage, "Load excel operation failed ", MessageBoxButton.OK);
                 return;
             }
 
-            MessageBox.Show(result.Exception.Message, "Load excel operation failed ", MessageBoxButton.OK);
+            // MessageBox.Show(this.LastOperationResult.Exception.Message, "Load excel operation failed ", MessageBoxButton.OK);
         }
 
         private void UpdateChart(List<Demand> demands)

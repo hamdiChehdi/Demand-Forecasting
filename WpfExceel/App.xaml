@@ -35,6 +35,11 @@
             </Style.Triggers>
         </Style>
 
-        
+        <SolidColorBrush x:Key = "BlueSky" Color = "#06B5F8" />
+
+        <Style TargetType="{x:Type Button}" x:Key="btnBlueSky">
+            <Setter Property="Background" Value="{StaticResource BlueSky}" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
     </Application.Resources>
 </Application>

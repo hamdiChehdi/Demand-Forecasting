@@ -8,9 +8,14 @@
         xmlns:validation="clr-namespace:ForecastingDemand.Validation"
         xmlns:Model="clr-namespace:ForecastingDemand.Model"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:convertor="clr-namespace:ForecastingDemand.Convertor"
         mc:Ignorable="d"
         Title="HomeView" 
         Icon="\Images\robot_icon.ico"
+        MinHeight="250"
+        MinWidth="550"
+        MaxWidth="800"
+        SizeToContent="WidthAndHeight"
         Height="300" 
         Width="600">
 
@@ -21,15 +26,19 @@
                 <x:Type TypeName="Model:ForecastingTechniques"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
+        <convertor:OperationResultColorConverter x:Key="OperationResultColorConverter" />
+        <convertor:OperationResultMessageConverter x:Key="OperationResultMessageConverter" />
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height=".5*"
+            <RowDefinition Height="100"
                            />
+            <RowDefinition MaxHeight="45" />
+            <RowDefinition MaxHeight="40" />
             <RowDefinition Height=".3*" />
-            <RowDefinition Height=".2*" />
-            <RowDefinition Height=".3*" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -42,12 +51,19 @@
 
         <Image Source="\Images\robot_icon.jpg"
                Grid.ColumnSpan="2"/>
+        
         <Grid Grid.Column="2"
-               Grid.ColumnSpan="3" Background="Brown">
-        <Image Source="\Images\DemandForecasting.jpg"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"
-               />
+              Background="#D5D5D5"
+              Grid.ColumnSpan="3" >
+            <Label FontWeight="Bold"
+                   FontSize="30"
+                   
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+                <TextBlock TextWrapping="WrapWithOverflow">
+                    Demand Forecasting
+                </TextBlock>
+            </Label>
         </Grid>
         <!--<Border 
             Grid.Column="2"
@@ -87,7 +103,7 @@
                      TextAlignment="Left"
                      VerticalContentAlignment="Center"
                      ToolTip="{Binding FilePath}"
-                     Margin="2,2,20,2"
+                     Margin="2,2,18,2"
                      Width="250">
                 <TextBox.Text>
                     <Binding Path="FilePath" UpdateSourceTrigger="PropertyChanged">
@@ -100,17 +116,19 @@
             
             <Button Content="Load" 
                     Margin="2"
-                    Foreground="White"
-                    Background="#06B5F8"
                     Command="{Binding LoadExcelCmd}"
                     Height="32"
-                    Width="45"/>
+                    Style="{StaticResource btnBlueSky}"
+                    Width="40"/>
         </StackPanel>
 
         <Expander Header="Demand Chart" 
                   Grid.Row="3"
-                  Grid.ColumnSpan="3">
-            <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" >
+                  Grid.ColumnSpan="4">
+            <lvc:CartesianChart Series="{Binding SeriesCollection}" 
+                                LegendLocation="Right" 
+                                Width="400"
+                                Height="300">
                 <lvc:CartesianChart.AxisY>
                     <lvc:Axis Title="Quantity"></lvc:Axis>
                 </lvc:CartesianChart.AxisY>
@@ -125,19 +143,26 @@
                     Margin="2"
                     Orientation="Horizontal"
                     Grid.ColumnSpan="3">
-        <ComboBox HorizontalAlignment="Left" 
-                  Height="23"
-                  MinWidth="150"     
-                  SelectedItem="{Binding SelectedTechnique}"
-                  ItemsSource="{Binding Source={StaticResource dataFromEnum}}"/>
+            <ComboBox HorizontalAlignment="Left" 
+                      Height="23"
+                      MinWidth="150"     
+                      SelectedItem="{Binding SelectedTechnique}"
+                      ItemsSource="{Binding Source={StaticResource dataFromEnum}}"/>
 
-        <Button Content="Start" 
-                Margin="2"
-                Foreground="White"
-                Background="#06B5F8"
-                Command="{Binding StartCmd}"
-                Height="23"
-                Width="46"/>
+            <Button Content="Start" 
+                    Margin="2"
+                    Command="{Binding StartCmd}"
+                    Height="23"
+                    Style="{StaticResource btnBlueSky}"
+                    Width="46"/>
         </StackPanel>
+
+        <Grid Grid.Row="4"
+              Grid.ColumnSpan="5"
+              Background="{Binding LastOperationResult, Converter={StaticResource OperationResultColorConverter}}"
+              >
+            <Label Content="{Binding LastOperationResult, Converter={StaticResource OperationResultMessageConverter}}"
+                   />
+        </Grid>
     </Grid>
 </Window>

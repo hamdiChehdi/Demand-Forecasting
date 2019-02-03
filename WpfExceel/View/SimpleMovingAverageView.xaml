@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:ForecastingDemand.View"
+        xmlns:numeric="http://gu.se/NumericInput"
         mc:Ignorable="d"
-        Title="SimpleMovingAverageView" Height="450" Width="800">
-    <Grid>
+        Title="SimpleMovingAverageView" 
+        Height="450" 
+        Width="800">
+    <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height=".3*"/>
             <RowDefinition Height=".7*"/>
@@ -30,16 +33,22 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
-                    <Label FontSize="20"
+                    <Label FontSize="18"
                            Margin="2"
                            ToolTip="M is the number of total periods."
                            VerticalAlignment="Center">M :</Label>
 
-                    <TextBox Grid.Column="1"
-                             Height="28"
-                             Width="100"
-                             Text="{Binding NumberOfPeriods}"
-                             />
+                    <numeric:IntBox Grid.Column="1" 
+                                    Height="28"
+                                    Width="100"
+                                    CanValueBeNull="False"
+                                    NumberStyles="Integer"  
+                                    MinValue="1"
+                                    MaxValue="{Binding MaxM}"
+                                    Value="{Binding NumberOfPeriodsValue, ValidatesOnNotifyDataErrors=True}" 
+                                    />
+                    
+                   
                 </StackPanel>
 
                 <Button Content="Run"
@@ -48,6 +57,7 @@
                         Grid.Column="2"
                         Height="30"
                         Width="60"
+                        Style="{StaticResource btnBlueSky}"
                         />
             </Grid>
 

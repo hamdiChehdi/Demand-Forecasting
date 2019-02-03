@@ -88,6 +88,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Convertor\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="Convertor\OperationResultColorConverter.cs" />
+    <Compile Include="Convertor\OperationResultMessageConverter.cs" />
     <Compile Include="Model\Demand.cs" />
     <Compile Include="Model\Forecast.cs" />
     <Compile Include="Model\ForecastingTechniques.cs" />
