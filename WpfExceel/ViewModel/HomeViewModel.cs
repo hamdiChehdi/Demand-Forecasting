@@ -23,6 +23,7 @@
         private List<Demand> demands;
         private OperationStatus currentStatus;
         private bool isActive;
+        private bool enableStart;
 
         public HomeViewModel()
         {
@@ -114,6 +115,20 @@
             }
         }
 
+        public bool EnableStart
+        {
+            get
+            {
+                return this.enableStart;
+            }
+
+            set
+            {
+                this.enableStart = value;
+                this.NotifyPropertyChanged(nameof(EnableStart));
+            }
+        }
+
         public ICommand ImportExcelCmd
         {
             get
@@ -163,6 +178,7 @@
             {
                 this.CurrentStatus.ApplyInvalidFileStatus();
                 this.NotifyPropertyChanged(nameof(this.CurrentStatus));
+                this.EnableStart = false;
                 return;
             }
 
@@ -173,11 +189,13 @@
             this.CurrentStatus.SetOperationResult(result);
             this.IsActive = false;
             this.NotifyPropertyChanged(nameof(this.CurrentStatus));
+            this.EnableStart = false;
 
             if (this.CurrentStatus.Status == LoadStatus.Loaded)
             {
                 // MessageBox.Show("WPF App", "Succefully loaded");
                 this.UpdateChart(demands);
+                this.EnableStart = true;
                 return;
             }
         }

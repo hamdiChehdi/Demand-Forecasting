@@ -155,6 +155,7 @@
                     Command="{Binding StartCmd}"
                     Height="23"
                     Style="{StaticResource btnBlueSky}"
+                    IsEnabled="{Binding EnableStart}"
                     Width="46"/>
         </StackPanel>
 
@@ -167,7 +168,7 @@
             
             <Controls:ProgressRing Foreground="White"
                                    IsActive="{Binding IsActive}" 
-                                   Width="28"/>
+                                   Width="27"/>
 
         </Grid>
     </Grid>
