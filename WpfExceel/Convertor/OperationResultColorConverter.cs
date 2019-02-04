@@ -11,15 +11,23 @@
         {
             if (value == null)
             {
-                return new SolidColorBrush(Colors.DeepSkyBlue);
+                return new SolidColorBrush(Colors.LightGray);
             }
 
-            OperationResult result = (OperationResult)value;
+            OperationStatus operationStatus = (OperationStatus)value;
 
-            if (result.Success)
+            switch (operationStatus.Status)
             {
-                return new SolidColorBrush(Colors.LightGreen);
+                case LoadStatus.Nothing:
+                    return new SolidColorBrush(Colors.LightGray);
+                case LoadStatus.Loaded:
+                    return new SolidColorBrush(Colors.LightGreen);
+                case LoadStatus.Ongoing:
+                    return new SolidColorBrush(Colors.DeepSkyBlue);
+                case LoadStatus.Failed:
+                    return new SolidColorBrush(Colors.OrangeRed);
             }
+            
 
             return new SolidColorBrush(Colors.OrangeRed);
         }

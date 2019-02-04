@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:ForecastingDemand.View"
         xmlns:validation="clr-namespace:ForecastingDemand.Validation"
         xmlns:Model="clr-namespace:ForecastingDemand.Model"
@@ -159,10 +160,15 @@
 
         <Grid Grid.Row="4"
               Grid.ColumnSpan="5"
-              Background="{Binding LastOperationResult, Converter={StaticResource OperationResultColorConverter}}"
+              Background="{Binding CurrentStatus, Converter={StaticResource OperationResultColorConverter}}"
               >
-            <Label Content="{Binding LastOperationResult, Converter={StaticResource OperationResultMessageConverter}}"
+            <Label Content="{Binding CurrentStatus, Converter={StaticResource OperationResultMessageConverter}}"
                    />
+            
+            <Controls:ProgressRing Foreground="White"
+                                   IsActive="{Binding IsActive}" 
+                                   Width="28"/>
+
         </Grid>
     </Grid>
 </Window>

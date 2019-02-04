@@ -13,6 +13,7 @@
     using ForecastingDemand.View;
     using ForecastingDemand.Validation;
     using System.Windows.Controls;
+    using System.Threading.Tasks;
 
     public class HomeViewModel : ViewModelBase
     {
@@ -20,8 +21,8 @@
         private int[] labels;
         private ForecastingTechniques selectedTechnique;
         private List<Demand> demands;
-        private string statusMsg;
-        private OperationResult lastOperationResult;
+        private OperationStatus currentStatus;
+        private bool isActive;
 
         public HomeViewModel()
         {
@@ -37,7 +38,7 @@
             };
 
             this.demands = new List<Demand>();
-            this.StatusMsg = "Ready ...";
+            this.CurrentStatus = new OperationStatus();
         }
 
         public ForecastingTechniques SelectedTechnique
@@ -68,31 +69,18 @@
             }
         }
 
-        public string StatusMsg
+        
+        public OperationStatus CurrentStatus
         {
             get
             {
-                return this.statusMsg;
+                return this.currentStatus;
             }
 
             set
             {
-                this.statusMsg = value;
-                this.NotifyPropertyChanged(nameof(StatusMsg));
-            }
-        }
-
-        public OperationResult LastOperationResult
-        {
-            get
-            {
-                return this.lastOperationResult;
-            }
-
-            set
-            {
-                this.lastOperationResult = value;
-                this.NotifyPropertyChanged(nameof(LastOperationResult));
+                this.currentStatus = value;
+                this.NotifyPropertyChanged(nameof(CurrentStatus));
             }
         }
 
@@ -109,6 +97,20 @@
             {
                 this.labels = value;
                 this.NotifyPropertyChanged(nameof(Labels));
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return this.isActive;
+            }
+
+            set
+            {
+                this.isActive = value;
+                this.NotifyPropertyChanged(nameof(IsActive));
             }
         }
 
@@ -149,36 +151,35 @@
             }
         }
 
-        private void LoadExcel(object input)
+        private async void LoadExcel(object input)
         {
             this.demands.Clear();
 
             ExcelFileNameValidationRule excelValidator = new ExcelFileNameValidationRule();
 
-            ValidationResult result = excelValidator.Validate(this.FilePath, null);
+            ValidationResult validationResult = excelValidator.Validate(this.FilePath, null);
 
-            if (!result.IsValid)
+            if (!validationResult.IsValid)
             {
-                this.LastOperationResult = OperationResult.FailureResult("Please enter valid excel file");
+                this.CurrentStatus.ApplyInvalidFileStatus();
+                this.NotifyPropertyChanged(nameof(this.CurrentStatus));
                 return;
             }
 
-            this.LastOperationResult = ExcelReader.LoadExcel(this.FilePath, this.demands);
+            this.IsActive = true;
+            this.CurrentStatus.Status = LoadStatus.Ongoing;
+            this.NotifyPropertyChanged(nameof(this.CurrentStatus));
+            OperationResult result = await Task.Run(() => ExcelReader.LoadExcel(this.FilePath, this.demands));
+            this.CurrentStatus.SetOperationResult(result);
+            this.IsActive = false;
+            this.NotifyPropertyChanged(nameof(this.CurrentStatus));
 
-            if (this.LastOperationResult.Success)
+            if (this.CurrentStatus.Status == LoadStatus.Loaded)
             {
                 // MessageBox.Show("WPF App", "Succefully loaded");
                 this.UpdateChart(demands);
                 return;
             }
-
-            if (!this.LastOperationResult.IsException())
-            {
-                // MessageBox.Show(this.LastOperationResult.FailureMessage, "Load excel operation failed ", MessageBoxButton.OK);
-                return;
-            }
-
-            // MessageBox.Show(this.LastOperationResult.Exception.Message, "Load excel operation failed ", MessageBoxButton.OK);
         }
 
         private void UpdateChart(List<Demand> demands)

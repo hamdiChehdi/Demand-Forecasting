@@ -13,19 +13,21 @@
                 return "Ready ...";
             }
 
-            OperationResult result = (OperationResult)value;
+            OperationStatus operationStatus = (OperationStatus)value;
 
-            if (result.Success)
+            switch (operationStatus.Status)
             {
-                return "The selected file succefully loaded";
+                case LoadStatus.Nothing:
+                    return "Ready ...";
+                case LoadStatus.Loaded:
+                    return "The selected file succefully loaded";
+                case LoadStatus.Ongoing:
+                    return "Loading file in progress ...";
+                case LoadStatus.Failed:
+                    return operationStatus.GetFailedMessage();
             }
 
-            if (!result.IsException())
-            {
-                return "Load excel operation failed, " + result.FailureMessage;
-            }
-
-            return "Load excel operation failed, Exception: " + result.Exception.Message;
+            return "Ready ...";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
