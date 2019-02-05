@@ -105,9 +105,11 @@
     <Compile Include="Model\LoadStatus.cs" />
     <Compile Include="Model\OperationResult.cs" />
     <Compile Include="Model\OperationStatus.cs" />
+    <Compile Include="Model\Weight.cs" />
     <Compile Include="Validation\ExcelFileNameValidationRule.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\SMAViewModel.cs" />
+    <Compile Include="ViewModel\WMAViewModel.cs" />
     <Compile Include="View\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -122,11 +124,18 @@
     <Compile Include="View\SimpleMovingAverageView.xaml.cs">
       <DependentUpon>SimpleMovingAverageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WeightedMovingAverageView.xaml.cs">
+      <DependentUpon>WeightedMovingAverageView.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SimpleMovingAverageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WeightedMovingAverageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

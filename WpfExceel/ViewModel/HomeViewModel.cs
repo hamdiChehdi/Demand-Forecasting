@@ -193,7 +193,6 @@
 
             if (this.CurrentStatus.Status == LoadStatus.Loaded)
             {
-                // MessageBox.Show("WPF App", "Succefully loaded");
                 this.UpdateChart(demands);
                 this.EnableStart = true;
                 return;
@@ -215,9 +214,24 @@
 
         private void Start(object input)
         {
-            SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands);
-            SimpleMovingAverageView view = new SimpleMovingAverageView(sma);
-            view.ShowDialog();
+            switch (this.SelectedTechnique)
+            {
+                case ForecastingTechniques.SimpleMovingAverage:
+                    {
+                        SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands);
+                        SimpleMovingAverageView view = new SimpleMovingAverageView(sma);
+                        view.ShowDialog();
+                    }
+                    break;
+                case ForecastingTechniques.WeightedMovingAverage:
+                    {
+                        WMAViewModel wma = new WMAViewModel(this.SeriesCollection, this.demands);
+                        WeightedMovingAverageView view = new WeightedMovingAverageView(wma);
+                        view.ShowDialog();
+                    }
+                    break;
+            }
+            
         }
     }
 }
