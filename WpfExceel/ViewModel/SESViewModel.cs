@@ -176,9 +176,15 @@
 
             this.SeriesCollection[1].Values.Clear();
             int size = this.Forecasts.Count;
+
+            for (int i = 0; i < size; i++)
+            {
+                this.Forecasts[i].Forecasts = 0;
+            }
+
             this.Forecasts[this.StartIndex - 1].Forecasts = this.Forecasts[this.StartIndex - 1].Quantity;
             this.ErrorAvg = 0;
-
+            
             for (int i = 0; i < this.StartIndex; i++)
             {
                 this.SeriesCollection[1].Values.Add(0d);
