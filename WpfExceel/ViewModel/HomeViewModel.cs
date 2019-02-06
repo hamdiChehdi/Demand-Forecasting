@@ -230,6 +230,13 @@
                         view.ShowDialog();
                     }
                     break;
+                case ForecastingTechniques.SimpleExponentielSmoothinh:
+                    {
+                        SESViewModel ses = new SESViewModel(this.SeriesCollection, this.demands, this.Labels);
+                        SimpleExponentielSmoothinhView view = new SimpleExponentielSmoothinhView(ses);
+                        view.ShowDialog();
+                    }
+                    break;
             }
             
         }

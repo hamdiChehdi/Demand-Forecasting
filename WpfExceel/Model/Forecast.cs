@@ -7,6 +7,7 @@
         private int period;
         private double quantity;
         private double forecasts;
+        private double optimization;
 
         public Forecast(Demand demand)
         {
@@ -53,6 +54,28 @@
             {
                 this.forecasts = value;
                 this.NotifyPropertyChanged(nameof(Forecasts));
+            }
+        }
+
+        public double Optimization
+        {
+            get
+            {
+                return this.optimization;
+            }
+
+            set
+            {
+                this.optimization = value;
+                this.NotifyPropertyChanged(nameof(Optimization));
+            }
+        }
+
+        public double Error
+        {
+            get
+            {
+                return this.Quantity - this.Forecasts;
             }
         }
     }

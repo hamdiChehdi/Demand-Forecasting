@@ -3,12 +3,12 @@
     using ForecastingDemand.ViewModel;
     using MahApps.Metro.Controls;
 
-    public partial class SimpleMovingAverageView : MetroWindow
+    public partial class SimpleExponentielSmoothinhView : MetroWindow
     {
-        public SimpleMovingAverageView(SMAViewModel viewModel)
+        public SimpleExponentielSmoothinhView(SESViewModel viewModel)
         {
-            this.DataContext = viewModel;
             this.InitializeComponent();
+            this.DataContext = viewModel;
         }
     }
 }
