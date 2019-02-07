@@ -2,22 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Windows.Input;
     using ForecastingDemand.Model;
     using ForecastingDemand.MvvmInfrastructure;
     using LiveCharts;
 
-    public class SMAViewModel : ViewModelBase
+    public class SMAViewModel : ForecastTechniqueViewModel
     {
         private int numberOfPeriods;
-        private ObservableCollection<Forecast> forecasts;
-        private int maxM;
 
-        public SMAViewModel(SeriesCollection seriesCollection, List<Demand> demands)
+        public SMAViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
+            : base(seriesCollection, demands, labels)
         {
-            this.SeriesCollection = seriesCollection;
-            this.InitializeForecasts(demands);
+            this.RunAction = new Action<object>(this.Run);
         }
 
         public int NumberOfPeriods
@@ -32,56 +29,6 @@
                 this.numberOfPeriods = value;
                 this.NotifyPropertyChanged(nameof(NumberOfPeriods));
             }
-        }
-
-        public int MaxM
-        {
-            get
-            {
-                return this.maxM;
-            }
-
-            set
-            {
-                this.maxM = value;
-                this.NotifyPropertyChanged(nameof(MaxM));
-            }
-        }
-
-        public SeriesCollection SeriesCollection { get; set; }
-
-        public ObservableCollection<Forecast> Forecasts
-        {
-            get
-            {
-                return this.forecasts;
-            }
-
-            set
-            {
-                this.forecasts = value;
-                this.NotifyPropertyChanged(nameof(Forecasts));
-            }
-        }
-
-        public ICommand RunCmd
-        {
-            get
-            {
-                return new DelegateCommand(new Action<object>(this.Run));
-            }
-        }
-
-        private void InitializeForecasts(List<Demand> demands)
-        {
-            this.Forecasts = new ObservableCollection<Forecast>();
-
-            foreach (Demand demand in demands)
-            {
-                this.Forecasts.Add(new Forecast(demand));
-            }
-
-            this.MaxM = this.Forecasts.Count - 1;
         }
 
         private void Run(object input)

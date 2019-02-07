@@ -218,14 +218,14 @@
             {
                 case ForecastingTechniques.SimpleMovingAverage:
                     {
-                        SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands);
+                        SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands, this.Labels);
                         SimpleMovingAverageView view = new SimpleMovingAverageView(sma);
                         view.ShowDialog();
                     }
                     break;
                 case ForecastingTechniques.WeightedMovingAverage:
                     {
-                        WMAViewModel wma = new WMAViewModel(this.SeriesCollection, this.demands);
+                        WMAViewModel wma = new WMAViewModel(this.SeriesCollection, this.demands, this.Labels);
                         WeightedMovingAverageView view = new WeightedMovingAverageView(wma);
                         view.ShowDialog();
                     }

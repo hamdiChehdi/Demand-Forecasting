@@ -9,21 +9,17 @@
     using LiveCharts;
     using LiveCharts.Wpf;
 
-    public class SESViewModel : ViewModelBase
+    public class SESViewModel : ForecastTechniqueViewModel
     {
         private double alpha;
-        private ObservableCollection<Forecast> forecasts;
-        private int maxM;
         private int startIndex;
         private double yorigin;
         private bool displayOptimization;
         private double errorAvg;
-        private int[] labels;
 
-        public SESViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] Labels)
-        {
-            this.SeriesCollection = seriesCollection;
-            this.InitializeForecasts(demands);
+        public SESViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
+            : base(seriesCollection, demands, labels)
+        { 
             this.SeriesCollection.Add(new LineSeries
             {
                 Title = "Forecast",
@@ -31,6 +27,7 @@
                 PointGeometry = DefaultGeometries.Circle,
                 PointGeometrySize = 10,
             });
+            this.RunAction = new Action<object>(this.Run);
         }
 
         public double Alpha
@@ -75,20 +72,6 @@
             }
         }
 
-        public int MaxM
-        {
-            get
-            {
-                return this.maxM;
-            }
-
-            set
-            {
-                this.maxM = value;
-                this.NotifyPropertyChanged(nameof(MaxM));
-            }
-        }
-
         public bool DisplayOptimization
         {
             get
@@ -115,56 +98,6 @@
                 this.errorAvg = value;
                 this.NotifyPropertyChanged(nameof(ErrorAvg));
             }
-        }
-
-        public SeriesCollection SeriesCollection { get; set; }
-
-        public ObservableCollection<Forecast> Forecasts
-        {
-            get
-            {
-                return this.forecasts;
-            }
-
-            set
-            {
-                this.forecasts = value;
-                this.NotifyPropertyChanged(nameof(Forecasts));
-            }
-        }
-
-        public int[] Labels
-        {
-            get
-            {
-                return this.labels;
-            }
-
-            set
-            {
-                this.labels = value;
-                this.NotifyPropertyChanged(nameof(Labels));
-            }
-        }
-
-        public ICommand RunCmd
-        {
-            get
-            {
-                return new DelegateCommand(new Action<object>(this.Run));
-            }
-        }
-
-        private void InitializeForecasts(List<Demand> demands)
-        {
-            this.Forecasts = new ObservableCollection<Forecast>();
-
-            foreach (Demand demand in demands)
-            {
-                this.Forecasts.Add(new Forecast(demand));
-            }
-
-            this.MaxM = this.Forecasts.Count - 1;
         }
 
         private void Run(object input)

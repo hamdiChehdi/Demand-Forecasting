@@ -108,6 +108,7 @@
     <Compile Include="Model\Weight.cs" />
     <Compile Include="MvvmInfrastructure\BindingProxy.cs" />
     <Compile Include="Validation\ExcelFileNameValidationRule.cs" />
+    <Compile Include="ViewModel\ForecastTechniqueViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\SESViewModel.cs" />
     <Compile Include="ViewModel\SMAViewModel.cs" />

@@ -8,18 +8,16 @@
     using ForecastingDemand.MvvmInfrastructure;
     using LiveCharts;
 
-    public class WMAViewModel : ViewModelBase
+    public class WMAViewModel : ForecastTechniqueViewModel
     {
         private int numberOfPeriods;
-        private ObservableCollection<Forecast> forecasts;
         private ObservableCollection<Weight> weights;
-        private int maxM;
 
-        public WMAViewModel(SeriesCollection seriesCollection, List<Demand> demands)
+        public WMAViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
+            : base(seriesCollection, demands, labels)
         {
-            this.SeriesCollection = seriesCollection;
-            this.InitializeForecasts(demands);
             this.Weights = new ObservableCollection<Weight>();
+            this.RunAction = new Action<object>(this.Run);
         }
 
         public int NumberOfPeriods
@@ -37,36 +35,6 @@
             }
         }
 
-        public int MaxM
-        {
-            get
-            {
-                return this.maxM;
-            }
-
-            set
-            {
-                this.maxM = value;
-                this.NotifyPropertyChanged(nameof(MaxM));
-            }
-        }
-
-        public SeriesCollection SeriesCollection { get; set; }
-
-        public ObservableCollection<Forecast> Forecasts
-        {
-            get
-            {
-                return this.forecasts;
-            }
-
-            set
-            {
-                this.forecasts = value;
-                this.NotifyPropertyChanged(nameof(Forecasts));
-            }
-        }
-
         public ObservableCollection<Weight> Weights
         {
             get
@@ -79,26 +47,6 @@
                 this.weights = value;
                 this.NotifyPropertyChanged(nameof(Weights));
             }
-        }
-
-        public ICommand RunCmd
-        {
-            get
-            {
-                return new DelegateCommand(new Action<object>(this.Run));
-            }
-        }
-
-        private void InitializeForecasts(List<Demand> demands)
-        {
-            this.Forecasts = new ObservableCollection<Forecast>();
-
-            foreach (Demand demand in demands)
-            {
-                this.Forecasts.Add(new Forecast(demand));
-            }
-
-            this.MaxM = this.Forecasts.Count - 1;
         }
 
         private void InitializeWeights()

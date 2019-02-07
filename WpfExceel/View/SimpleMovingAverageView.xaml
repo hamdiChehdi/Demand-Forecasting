@@ -87,8 +87,31 @@
                   Grid.Row="1"
                   Grid.Column="0">
             <DataGrid ItemsSource="{Binding Forecasts}" 
+                      AutoGenerateColumns="False"
                       IsReadOnly="True">
-               
+                <DataGrid.Columns>
+                    <DataGridTextColumn                     
+                            Header="Period"  
+                            Width="70"                   
+                            Binding="{Binding Period}"
+                            >
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn                     
+                            Header="Demand"  
+                            Width="75" 
+                            
+                            Binding="{Binding Quantity}"
+                            >
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn                     
+                            Header="Forecast"  
+                            Width="80"                   
+                            Binding="{Binding Forecasts}"
+                            >
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
 
