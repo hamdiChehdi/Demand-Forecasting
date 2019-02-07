@@ -1,5 +1,5 @@
 
-# Forecasting-demand
+# Demand Forecasting App
 Demand forecasting application :
 - Import Excel file
 - Implement forecasting techniques :
