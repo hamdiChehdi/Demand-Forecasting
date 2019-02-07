@@ -10,6 +10,7 @@ Demand forecasting application :
   
 ## Authors
 Hamdi Chahdi, Software engineer
+
 Rihab Dhaoui, Industrial engineer
 
 
