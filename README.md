@@ -1,6 +1,6 @@
 # Forecasting-demand
 Demand forecasting application :
-import Excel file
+- Import Excel file
 Implement forecasting techniques :
 - Simple moving average
 - Weighted moving average
