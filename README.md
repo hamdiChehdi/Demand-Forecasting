@@ -1,4 +1,4 @@
-<div align="center">
+
 # Forecasting-demand
 Demand forecasting application :
 - Import Excel file
@@ -13,4 +13,3 @@ Hamdi Chahdi, Software engineer
 Rihab Dhaoui, Industrial engineer
 
 
-</div>
