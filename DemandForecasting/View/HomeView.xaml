@@ -54,11 +54,12 @@
                Grid.ColumnSpan="2"/>
         
         <Grid Grid.Column="2"
-              Background="#D5D5D5"
+              Background="#6BBA45"
+              
               Grid.ColumnSpan="3" >
             <Label FontWeight="Bold"
                    FontSize="30"
-                   
+                   Foreground="White"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center">
                 <TextBlock TextWrapping="WrapWithOverflow">

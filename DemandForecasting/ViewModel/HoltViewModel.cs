@@ -6,17 +6,16 @@
     using LiveCharts;
     using LiveCharts.Wpf;
 
-    public class SESViewModel : ForecastTechniqueViewModel
+    public class HoltViewModel : ForecastTechniqueViewModel
     {
         private double alpha;
-        private int startIndex;
-        private double yorigin;
+        private double beta;
         private bool displayOptimization;
         private double errorAvg;
 
-        public SESViewModel(List<Demand> demands, int[] labels)
+        public HoltViewModel(List<Demand> demands, int[] labels)
             : base(demands, labels)
-        { 
+        {
             this.RunAction = new Action<object>(this.Run);
             this.Optimizations = new ChartValues<double>();
         }
@@ -35,31 +34,17 @@
             }
         }
 
-        public int StartIndex
+        public double Beta
         {
             get
             {
-                return this.startIndex;
+                return this.beta;
             }
 
             set
             {
-                this.startIndex = value;
-                this.NotifyPropertyChanged(nameof(StartIndex));
-            }
-        }
-
-        public double Yorigin
-        {
-            get
-            {
-                return this.yorigin;
-            }
-
-            set
-            {
-                this.yorigin = value;
-                this.NotifyPropertyChanged(nameof(Yorigin));
+                this.beta = value;
+                this.NotifyPropertyChanged(nameof(Beta));
             }
         }
 
@@ -95,11 +80,6 @@
 
         private void Run(object input)
         {
-            if (this.StartIndex < 1)
-            {
-                return;
-            }
-
             // Update chart
             this.Forecasts.Clear();
             this.Optimizations.Clear();
@@ -111,38 +91,35 @@
                 this.ForecastCollection[i].Forecasts = 0;
             }
 
-            this.ForecastCollection[this.StartIndex - 1].Forecasts = this.ForecastCollection[this.StartIndex - 1].Quantity;
+            this.ForecastCollection[0].Forecasts = 0;
             this.ErrorAvg = 0;
-            
-            for (int i = 0; i < this.StartIndex; i++)
-            {
-                // Update chart
-                this.Forecasts.Add(0d);
-                this.Optimizations.Add(0d);
-            }
 
-            int k = 0;
+            // Update chart
+            this.Forecasts.Add(0d);
+            this.Optimizations.Add(0d);
 
-            if (this.Yorigin != 0)
-            {
-                this.ForecastCollection[this.StartIndex].Forecasts = Math.Round(this.ForecastCollection[this.StartIndex].Quantity * this.Alpha + (1 - this.Alpha) * this.Yorigin, 3);
-                this.Forecasts.Add(this.ForecastCollection[this.StartIndex].Forecasts);
-                this.ErrorAvg += this.ForecastCollection[this.StartIndex].Error;
-                k++;
-            }
+            double a = this.ForecastCollection[0].Quantity;
+            double b = 0;
 
-            for (int i = this.StartIndex + k; i < size; i++)
+            for (int i = 1; i < size; i++)
             {
-                this.ForecastCollection[i].Forecasts = Math.Round(this.ForecastCollection[i].Quantity * this.Alpha + (1 - this.Alpha) * this.ForecastCollection[i - 1].Forecasts, 3);
-                this.Forecasts.Add(this.ForecastCollection[i].Forecasts);
+                this.ForecastCollection[i].Forecasts = Math.Round(a + b, 3);
+                double pa = a;
+                a = this.Alpha * this.ForecastCollection[i].Quantity + (1 - this.Alpha) * (a + b);
+                b = this.Beta * (a - pa) + (1 - this.Beta) * b;        
                 this.ErrorAvg += this.ForecastCollection[i].Error;
+                
+                // Update chart
+                this.Forecasts.Add(this.ForecastCollection[i].Forecasts);
             }
 
-            this.ErrorAvg = Math.Round(this.ErrorAvg / (size - this.StartIndex), 3);
+            this.ErrorAvg = Math.Round(this.ErrorAvg / (size - 1), 3);
 
-            for (int i = this.StartIndex; i < size; i++)
+            for (int i = 1; i < size; i++)
             {
                 this.ForecastCollection[i].Optimization = this.ForecastCollection[i].Forecasts + this.ErrorAvg;
+
+                // Update chart
                 this.Optimizations.Add(this.ForecastCollection[i].Optimization);
             }
         }

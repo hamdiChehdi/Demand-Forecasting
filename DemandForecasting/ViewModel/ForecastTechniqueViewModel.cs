@@ -10,14 +10,14 @@
 
     public class ForecastTechniqueViewModel :ViewModelBase
     {
-        private ObservableCollection<Forecast> forecasts;
+        private ObservableCollection<Forecast> forecastCollection;
         private int maxM;
         private int[] labels;
 
-        public ForecastTechniqueViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
+        public ForecastTechniqueViewModel(List<Demand> demands, int[] labels)
         {
-            this.SeriesCollection = seriesCollection;
             this.Labels = labels;
+            this.Forecasts = new ChartValues<double>();
             this.InitializeForecasts(demands);
         }
 
@@ -35,21 +35,22 @@
             }
         }
 
+        public ChartValues<double> Demands { get; set; }
+        public ChartValues<double> Forecasts { get; set; }
+
         public Action<object> RunAction { get; set; }
 
-        public SeriesCollection SeriesCollection { get; set; }
-
-        public ObservableCollection<Forecast> Forecasts
+        public ObservableCollection<Forecast> ForecastCollection
         {
             get
             {
-                return this.forecasts;
+                return this.forecastCollection;
             }
 
             set
             {
-                this.forecasts = value;
-                this.NotifyPropertyChanged(nameof(Forecasts));
+                this.forecastCollection = value;
+                this.NotifyPropertyChanged(nameof(ForecastCollection));
             }
         }
 
@@ -77,14 +78,16 @@
 
         private void InitializeForecasts(List<Demand> demands)
         {
-            this.Forecasts = new ObservableCollection<Forecast>();
+            this.ForecastCollection = new ObservableCollection<Forecast>();
+            this.Demands = new ChartValues<double>();
 
             foreach (Demand demand in demands)
             {
-                this.Forecasts.Add(new Forecast(demand));
+                this.ForecastCollection.Add(new Forecast(demand));
+                this.Demands.Add(demand.quantity);
             }
 
-            this.MaxM = this.Forecasts.Count - 1;
+            this.MaxM = this.ForecastCollection.Count - 1;
         }
     }
 }

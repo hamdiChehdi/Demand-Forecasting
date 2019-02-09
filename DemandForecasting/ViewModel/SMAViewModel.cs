@@ -11,8 +11,8 @@
     {
         private int numberOfPeriods;
 
-        public SMAViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
-            : base(seriesCollection, demands, labels)
+        public SMAViewModel(List<Demand> demands, int[] labels)
+            : base(demands, labels)
         {
             this.RunAction = new Action<object>(this.Run);
         }
@@ -34,19 +34,23 @@
         private void Run(object input)
         {
             double sum = 0;
+            int size = this.ForecastCollection.Count;
+
+            for (int i = 0; i < size; i++)
+            {
+                this.ForecastCollection[i].Forecasts = 0;
+            }
 
             for (int i = 0; i < this.NumberOfPeriods; i++)
             {
-                sum += this.Forecasts[i].Quantity;
+                sum += this.ForecastCollection[i].Quantity;
             }
-
-            int size = this.Forecasts.Count;
 
             for (int i = this.NumberOfPeriods; i < size; i++)
             {
-                this.Forecasts[i].Forecasts = Math.Round(sum / this.NumberOfPeriods, 3);
-                sum -= this.Forecasts[i - this.NumberOfPeriods].Quantity;
-                sum += this.Forecasts[i].Quantity;
+                this.ForecastCollection[i].Forecasts = Math.Round(sum / this.NumberOfPeriods, 3);
+                sum -= this.ForecastCollection[i - this.NumberOfPeriods].Quantity;
+                sum += this.ForecastCollection[i].Quantity;
             }
 
         }

@@ -218,22 +218,29 @@
             {
                 case ForecastingTechniques.SimpleMovingAverage:
                     {
-                        SMAViewModel sma = new SMAViewModel(this.SeriesCollection, this.demands, this.Labels);
+                        SMAViewModel sma = new SMAViewModel(this.demands, this.Labels);
                         SimpleMovingAverageView view = new SimpleMovingAverageView(sma);
                         view.ShowDialog();
                     }
                     break;
                 case ForecastingTechniques.WeightedMovingAverage:
                     {
-                        WMAViewModel wma = new WMAViewModel(this.SeriesCollection, this.demands, this.Labels);
+                        WMAViewModel wma = new WMAViewModel(this.demands, this.Labels);
                         WeightedMovingAverageView view = new WeightedMovingAverageView(wma);
                         view.ShowDialog();
                     }
                     break;
                 case ForecastingTechniques.SimpleExponentielSmoothinh:
                     {
-                        SESViewModel ses = new SESViewModel(this.SeriesCollection, this.demands, this.Labels);
+                        SESViewModel ses = new SESViewModel(this.demands, this.Labels);
                         SimpleExponentielSmoothinhView view = new SimpleExponentielSmoothinhView(ses);
+                        view.ShowDialog();
+                    }
+                    break;
+                case ForecastingTechniques.HoltProcedure:
+                    {
+                        HoltViewModel holt = new HoltViewModel(this.demands, this.Labels);
+                        HoltView view = new HoltView(holt);
                         view.ShowDialog();
                     }
                     break;

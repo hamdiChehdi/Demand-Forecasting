@@ -109,10 +109,14 @@
     <Compile Include="MvvmInfrastructure\BindingProxy.cs" />
     <Compile Include="Validation\ExcelFileNameValidationRule.cs" />
     <Compile Include="ViewModel\ForecastTechniqueViewModel.cs" />
+    <Compile Include="ViewModel\HoltViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\SESViewModel.cs" />
     <Compile Include="ViewModel\SMAViewModel.cs" />
     <Compile Include="ViewModel\WMAViewModel.cs" />
+    <Compile Include="View\HoltView.xaml.cs">
+      <DependentUpon>HoltView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
@@ -133,6 +137,10 @@
     <Compile Include="View\WeightedMovingAverageView.xaml.cs">
       <DependentUpon>WeightedMovingAverageView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\HoltView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -12,8 +12,8 @@
         private int numberOfPeriods;
         private ObservableCollection<Weight> weights;
 
-        public WMAViewModel(SeriesCollection seriesCollection, List<Demand> demands, int[] labels)
-            : base(seriesCollection, demands, labels)
+        public WMAViewModel(List<Demand> demands, int[] labels)
+            : base(demands, labels)
         {
             this.Weights = new ObservableCollection<Weight>();
             this.RunAction = new Action<object>(this.Run);
@@ -61,7 +61,12 @@
         private void Run(object input)
         {
             double sum = 0;
-            int size = this.Forecasts.Count;
+            int size = this.ForecastCollection.Count;
+
+            for (int i = 0; i < size; i++)
+            {
+                this.ForecastCollection[i].Forecasts = 0;
+            }
 
             for (int i = this.NumberOfPeriods; i < size; i++)
             {
@@ -70,10 +75,10 @@
 
                 for (int k = 0; k < this.NumberOfPeriods; k++)
                 {
-                    sum += (this.Weights[this.NumberOfPeriods - k - 1].Alpha * this.Forecasts[k + j].Quantity);
+                    sum += (this.Weights[this.NumberOfPeriods - k - 1].Alpha * this.ForecastCollection[k + j].Quantity);
                 }
 
-                this.Forecasts[i].Forecasts = Math.Round(sum / this.NumberOfPeriods, 3);
+                this.ForecastCollection[i].Forecasts = Math.Round(sum / this.NumberOfPeriods, 3);
             }
 
         }
