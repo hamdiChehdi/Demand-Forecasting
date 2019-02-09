@@ -119,42 +119,24 @@
         <GroupBox Header="Demand behavior"
                   Grid.Row="1"
                   Grid.Column="1">
-            <lvc:CartesianChart 
-                            LegendLocation="Right" >
-                <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Values="{Binding Demands}" 
-                                    StrokeThickness="2"  
-                                    Title="Demand"
-                                    LineSmoothness="1" 
-                                    PointGeometrySize="15" />
-                  
-                </lvc:CartesianChart.Series>
-                <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Quantity" IsMerged="True">
-
-                        <lvc:Axis.Separator>
-                            <lvc:Separator StrokeThickness="0.5" StrokeDashArray="2">
-                                <lvc:Separator.Stroke>
-                                    <SolidColorBrush Color="#404F56" />
-                                </lvc:Separator.Stroke>
-                            </lvc:Separator>
-                        </lvc:Axis.Separator>
-                    </lvc:Axis>
-                </lvc:CartesianChart.AxisY>
-                <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Period" 
-                              IsMerged="True"
-                              Labels="{Binding Labels}">
-                        <lvc:Axis.Separator>
-                            <lvc:Separator StrokeThickness="0.5" StrokeDashArray="4">
-                                <lvc:Separator.Stroke>
-                                    <SolidColorBrush Color="#404F56" />
-                                </lvc:Separator.Stroke>
-                            </lvc:Separator>
-                        </lvc:Axis.Separator>
-                    </lvc:Axis>
-                </lvc:CartesianChart.AxisX>
-            </lvc:CartesianChart>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Button  
+                    Width="33"
+                    Height="33"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    ToolTip ="full screen"
+                    Command="{Binding DisplayChartCmd}"
+                    Margin="2">
+                    <Image Source="\Images\blueCharts.jpg"  />
+                </Button>
+              
+                <local:ForecastChartUC Grid.ColumnSpan="2"/>
+            </Grid>
         </GroupBox>
     </Grid>
 </Controls:MetroWindow>

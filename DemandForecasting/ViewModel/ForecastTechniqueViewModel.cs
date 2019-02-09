@@ -6,6 +6,7 @@
     using System.Windows.Input;
     using DemandForecasting.Model;
     using DemandForecasting.MvvmInfrastructure;
+    using DemandForecasting.View;
     using LiveCharts;
 
     public class ForecastTechniqueViewModel :ViewModelBase
@@ -13,6 +14,8 @@
         private ObservableCollection<Forecast> forecastCollection;
         private int maxM;
         private int[] labels;
+        private bool displayOptimization;
+        private bool displayForecastChart;
 
         public ForecastTechniqueViewModel(List<Demand> demands, int[] labels)
         {
@@ -37,6 +40,7 @@
 
         public ChartValues<double> Demands { get; set; }
         public ChartValues<double> Forecasts { get; set; }
+        public ChartValues<double> Optimizations { get; set; }
 
         public Action<object> RunAction { get; set; }
 
@@ -68,11 +72,49 @@
             }
         }
 
+
+
+        public bool DisplayOptimization
+        {
+            get
+            {
+                return this.displayOptimization;
+            }
+
+            set
+            {
+                this.displayOptimization = value;
+                this.NotifyPropertyChanged(nameof(DisplayOptimization));
+            }
+        }
+
+        public bool DisplayForecastChart
+        {
+            get
+            {
+                return this.displayForecastChart;
+            }
+
+            set
+            {
+                this.displayForecastChart = value;
+                this.NotifyPropertyChanged(nameof(DisplayForecastChart));
+            }
+        }
+
         public ICommand RunCmd
         {
             get
             {
                 return new DelegateCommand(this.RunAction);
+            }
+        }
+
+        public ICommand DisplayChartCmd
+        {
+            get
+            {
+                return new DelegateCommand(this.DisplayChart);
             }
         }
 
@@ -88,6 +130,12 @@
             }
 
             this.MaxM = this.ForecastCollection.Count - 1;
+        }
+
+        private void DisplayChart(object input)
+        {
+            ForecastChartsView view = new ForecastChartsView(this);
+            view.ShowDialog();
         }
     }
 }

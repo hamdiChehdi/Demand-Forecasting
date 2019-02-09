@@ -114,6 +114,12 @@
     <Compile Include="ViewModel\SESViewModel.cs" />
     <Compile Include="ViewModel\SMAViewModel.cs" />
     <Compile Include="ViewModel\WMAViewModel.cs" />
+    <Compile Include="View\ForecastChartUC.xaml.cs">
+      <DependentUpon>ForecastChartUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForecastChartsView.xaml.cs">
+      <DependentUpon>ForecastChartsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HoltView.xaml.cs">
       <DependentUpon>HoltView.xaml</DependentUpon>
     </Compile>
@@ -137,6 +143,14 @@
     <Compile Include="View\WeightedMovingAverageView.xaml.cs">
       <DependentUpon>WeightedMovingAverageView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\ForecastChartUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ForecastChartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\HoltView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -243,6 +257,8 @@
   <ItemGroup>
     <Resource Include="Images\DemandForecasting.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\blueCharts.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

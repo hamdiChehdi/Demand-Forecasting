@@ -11,7 +11,6 @@
         private double alpha;
         private int startIndex;
         private double yorigin;
-        private bool displayOptimization;
         private double errorAvg;
 
         public SESViewModel(List<Demand> demands, int[] labels)
@@ -19,6 +18,7 @@
         { 
             this.RunAction = new Action<object>(this.Run);
             this.Optimizations = new ChartValues<double>();
+            this.DisplayForecastChart = true;
         }
 
         public double Alpha
@@ -60,22 +60,6 @@
             {
                 this.yorigin = value;
                 this.NotifyPropertyChanged(nameof(Yorigin));
-            }
-        }
-
-        public ChartValues<double> Optimizations { get; set; }
-
-        public bool DisplayOptimization
-        {
-            get
-            {
-                return this.displayOptimization;
-            }
-
-            set
-            {
-                this.displayOptimization = value;
-                this.NotifyPropertyChanged(nameof(DisplayOptimization));
             }
         }
 

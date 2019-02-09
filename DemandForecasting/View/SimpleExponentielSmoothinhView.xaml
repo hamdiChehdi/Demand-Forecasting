@@ -7,7 +7,6 @@
         xmlns:Mvvm="clr-namespace:DemandForecasting.MvvmInfrastructure"
         xmlns:numeric="http://gu.se/NumericInput"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="Simple Exponentiel Smoothinh (SES)" 
         MinHeight="500"
@@ -187,55 +186,24 @@
         <GroupBox Header="Demand behavior"
                   Grid.Row="1"
                   Grid.Column="1">
-            <lvc:CartesianChart 
-                            LegendLocation="Right" >
-                <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Values="{Binding Demands}" 
-                                    StrokeThickness="2"  
-                                    Title="Demand"
-                                    LineSmoothness="1" 
-                                    PointGeometrySize="15" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Button  
+                    Width="33"
+                    Height="33"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    ToolTip ="full screen"
+                    Command="{Binding DisplayChartCmd}"
+                    Margin="2">
+                    <Image Source="\Images\blueCharts.jpg"  />
+                </Button>
 
-                    <lvc:LineSeries Values="{Binding Forecasts}" 
-                                    StrokeThickness="2" 
-                                    
-                                    Title="Forecast"
-                                    LineSmoothness="1" 
-                                    PointGeometrySize="15" />
-
-                    <lvc:LineSeries Values="{Binding Optimizations}" 
-                                    StrokeThickness="2"                                   
-                                    Title="Optimization"
-                                    Visibility="{Binding DisplayOptimization, Converter={StaticResource VisibleIfTrueConverter}}"
-                                    LineSmoothness="1" 
-                                    PointGeometrySize="15" />
-                </lvc:CartesianChart.Series>
-                <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Quantity" IsMerged="True">
-
-                        <lvc:Axis.Separator>
-                            <lvc:Separator StrokeThickness="0.5" StrokeDashArray="2">
-                                <lvc:Separator.Stroke>
-                                    <SolidColorBrush Color="#404F56" />
-                                </lvc:Separator.Stroke>
-                            </lvc:Separator>
-                        </lvc:Axis.Separator>
-                    </lvc:Axis>
-                </lvc:CartesianChart.AxisY>
-                <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Period" 
-                              IsMerged="True"
-                              Labels="{Binding Labels}">
-                        <lvc:Axis.Separator>
-                            <lvc:Separator StrokeThickness="0.5" StrokeDashArray="4">
-                                <lvc:Separator.Stroke>
-                                    <SolidColorBrush Color="#404F56" />
-                                </lvc:Separator.Stroke>
-                            </lvc:Separator>
-                        </lvc:Axis.Separator>
-                    </lvc:Axis>
-                </lvc:CartesianChart.AxisX>
-            </lvc:CartesianChart>
+                <local:ForecastChartUC Grid.ColumnSpan="2"/>
+            </Grid>
         </GroupBox>
     </Grid>
 
